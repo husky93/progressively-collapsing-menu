@@ -1,12 +1,16 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/index.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'commonjs2',
+  },
+  devtool: 'inline-source-map',
+  devServer: {
+    static: './dist',
   },
   module: {
     rules: [
