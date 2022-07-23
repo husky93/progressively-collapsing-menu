@@ -1,13 +1,9 @@
-const Menu = (parent, [...links]) => {
+const Menu = (parent, [...links], options = {}) => {
   const isInViewport = (element) => {
     const dropdown = document.querySelector('.dropdown');
     const rect = element.getBoundingClientRect();
     const rectDropdown = dropdown ? dropdown.getBoundingClientRect() : null;
-    return rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      dropdown
+    return dropdown
       ? rect.right <= rectDropdown.left
       : rect.right <=
           (window.innerWidth || document.documentElement.clientWidth);
@@ -56,19 +52,22 @@ const Menu = (parent, [...links]) => {
     const dropdown = document.querySelector('.dropdown-collapse');
     const menulinks = [...menuContainer.children];
 
-    menulinks.forEach((link) => {
-      if (!isInViewport(link)) {
-        if (!dropdown) {
-          createDropdown();
-          const newDropdown = document.querySelector('.dropdown-collapse');
-          menuContainer.removeChild(link);
-          newDropdown.appendChild(link);
-        } else {
-          menuContainer.removeChild(link);
-          dropdown.appendChild(link);
+    menulinks
+      .slice()
+      .reverse()
+      .forEach((link) => {
+        if (!isInViewport(link)) {
+          if (!dropdown) {
+            createDropdown();
+            const newDropdown = document.querySelector('.dropdown-collapse');
+            menuContainer.removeChild(link);
+            newDropdown.appendChild(link);
+          } else {
+            menuContainer.removeChild(link);
+            dropdown.appendChild(link);
+          }
         }
-      }
-    });
+      });
     const link = dropdown ? dropdown.lastElementChild : null;
 
     if (link) {

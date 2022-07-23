@@ -4,7 +4,7 @@ import './style.css';
 const navbar = document.querySelector('.navbar');
 const links = [];
 
-for (let i = 0; i < 12; i++) {
+for (let i = 0; i < 36; i++) {
   const navItem = document.createElement('li');
   const navLink = document.createElement('a');
   navLink.textContent = `Link ${i}`;
