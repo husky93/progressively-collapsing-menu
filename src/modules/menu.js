@@ -27,7 +27,6 @@ const menu = (() => {
     const menuContainer = document.querySelector('.menu--progressive');
     const dropdown = document.querySelector('.dropdown-menu');
     const menulinks = [...menuContainer.children];
-    const dropdownLinks = [...dropdown.children];
 
     menulinks.forEach((link) => {
       if (!isInViewport(link)) {
@@ -36,9 +35,11 @@ const menu = (() => {
       }
     });
 
-    dropdownLinks.forEach((link) => {
-      console.log(isFreeSpace(link));
-    });
+    const link = dropdown.lastChild;
+    if (isFreeSpace(link)) {
+      dropdown.removeChild(link);
+      menuContainer.appendChild(link);
+    }
   };
   return { moveLinks };
 })();
