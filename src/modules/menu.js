@@ -12,19 +12,35 @@ const menu = (() => {
     );
   };
 
-  const moveOverflowingLinks = () => {
-    const menuContainer = document.querySelector('.menu--progressive');
+  const isFreeSpace = (link) => {
+    const navbar = document.querySelector('.navbar');
     const dropdown = document.querySelector('.dropdown');
-    const links = [...menuContainer.children];
+    const rect = navbar.getBoundingClientRect();
+    const rectDropdown = dropdown.getBoundingClientRect();
+    const freeSpace = rect.right - rectDropdown.right;
+    const linkWidth = link.clientWidth;
 
-    links.forEach((link) => {
+    return freeSpace >= linkWidth;
+  };
+
+  const moveLinks = () => {
+    const menuContainer = document.querySelector('.menu--progressive');
+    const dropdown = document.querySelector('.dropdown-menu');
+    const menulinks = [...menuContainer.children];
+    const dropdownLinks = [...dropdown.children];
+
+    menulinks.forEach((link) => {
       if (!isInViewport(link)) {
-        console.log('yo');
+        menuContainer.removeChild(link);
+        dropdown.appendChild(link);
       }
     });
-    console.log(links);
+
+    dropdownLinks.forEach((link) => {
+      console.log(isFreeSpace(link));
+    });
   };
-  return { moveOverflowingLinks };
+  return { moveLinks };
 })();
 
 export default menu;
