@@ -2,9 +2,9 @@
   display: flex;
   list-style: none;
   gap: 24px;
+  overflow: hidden;
 }
 
 .navbar {
   display: flex;
-  gap: 24px;
 }
