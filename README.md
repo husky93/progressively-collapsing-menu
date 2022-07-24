@@ -2,6 +2,8 @@
 
 Progressively collapsing menu component. Moves links that are overflowing viewport inside a dropdown menu. Highly customisable as there is only basic styling applied.
 
+![](https://github.com/husky93/progressively-collapsing-menu/blob/main/menu.gif)
+
 ## How to use
 
 ##### - Install the module inside your project
@@ -56,9 +58,7 @@ for (let i = 0; i < 24; i++) {
   links.push(navItem);
 }
 
-const menu = Menu(container, links, {
-  dropdownText: 'Show more'
-});
+const menu = Menu(container, links);
 
 menu.createMenu();
 menu.moveLinks();
