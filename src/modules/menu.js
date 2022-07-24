@@ -87,10 +87,17 @@ const Menu = (parent, [...links], options = {}) => {
       });
 
     const dropdown = document.querySelector('.dropdown-collapse');
-    if (dropdown && !isElementEmpty(dropdown) && isFreeSpace()) {
-      const link = dropdown.lastElementChild;
-      dropdown.removeChild(link);
-      menuContainer.appendChild(link);
+    if (dropdown && !isElementEmpty(dropdown)) {
+      const links = [...dropdown.children];
+      links
+        .slice()
+        .reverse()
+        .forEach((link) => {
+          if (isFreeSpace()) {
+            dropdown.removeChild(link);
+            menuContainer.appendChild(link);
+          }
+        });
     }
 
     if (dropdown && isElementEmpty(dropdown)) {
