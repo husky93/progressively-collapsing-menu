@@ -9,13 +9,14 @@ const Menu = (parent, [...links], options = {}) => {
           (window.innerWidth || document.documentElement.clientWidth);
   };
 
-  const isFreeSpace = (link) => {
-    const navbar = document.querySelector('.menu--wrapper');
+  const isFreeSpace = () => {
+    const navbar = document.querySelector('.menu-wrapper');
     const dropdown = document.querySelector('.dropdown');
+    const dropdownList = document.querySelector('.dropdown-collapse');
     const rect = navbar.getBoundingClientRect();
     const rectDropdown = dropdown.getBoundingClientRect();
     const freeSpace = rect.right - rectDropdown.right;
-    const linkWidth = link.clientWidth;
+    const linkWidth = dropdownList.lastElementChild.clientWidth;
 
     return freeSpace >= linkWidth + 24;
   };
@@ -30,58 +31,71 @@ const Menu = (parent, [...links], options = {}) => {
     const dropdown = document.createElement('div');
     const collapsable = document.createElement('div');
     const title = document.createElement('span');
-    title.classList.add('.dropdown-title');
+
+    title.classList.add('dropdown-title');
     dropdown.classList.add('dropdown');
     collapsable.classList.add('dropdown-collapse');
-    title.textContent = options.dropdownText || 'More ↓';
-    dropdown.append(title, collapsable);
 
+    title.textContent = options.dropdownText || 'More ↓';
+
+    dropdown.append(title, collapsable);
     wrapper.appendChild(dropdown);
   };
 
   const createMenu = () => {
     const menu = document.createElement('ul');
     const wrapper = document.createElement('nav');
-    wrapper.classList.add('menu--wrapper');
+
+    wrapper.classList.add('menu-wrapper');
+    menu.classList.add('menu--progressive');
+
     wrapper.style.display = 'flex';
     wrapper.style.flexDirection = 'row';
-    menu.classList.add('menu--progressive');
+    menu.style.display = 'flex';
+    menu.style.flexDirection = 'row';
+    menu.style.overflow = 'hidden';
+    menu.style.listStyle = 'none';
+
     wrapper.appendChild(menu);
     parent.appendChild(wrapper);
+
     appendLinks(menu);
     createDropdown(wrapper);
   };
 
+  const isElementEmpty = (element) => element.lastElementChild === null;
+
   const moveLinks = () => {
     const menuContainer = document.querySelector('.menu--progressive');
-    const dropdown = document.querySelector('.dropdown-collapse');
     const menulinks = [...menuContainer.children];
 
     menulinks
       .slice()
       .reverse()
       .forEach((link) => {
-        if (!isInViewport(link)) {
-          if (!dropdown) {
-            createDropdown();
-            const newDropdown = document.querySelector('.dropdown-collapse');
-            menuContainer.removeChild(link);
-            newDropdown.appendChild(link);
-          } else {
-            menuContainer.removeChild(link);
-            dropdown.appendChild(link);
-          }
+        let dropdown = document.querySelector('.dropdown-collapse');
+        if (!isInViewport(link) && !dropdown) {
+          const wrapper = document.querySelector('.menu-wrapper');
+          createDropdown(wrapper);
+          dropdown = document.querySelector('.dropdown-collapse');
+          menuContainer.removeChild(link);
+          dropdown.appendChild(link);
+        } else if (!isInViewport(link) && dropdown) {
+          menuContainer.removeChild(link);
+          dropdown.appendChild(link);
         }
       });
 
-    const link = dropdown ? dropdown.lastElementChild : null;
-    if (link && isFreeSpace(link)) {
+    const dropdown = document.querySelector('.dropdown-collapse');
+    if (dropdown && !isElementEmpty(dropdown) && isFreeSpace()) {
+      const link = dropdown.lastElementChild;
       dropdown.removeChild(link);
       menuContainer.appendChild(link);
     }
 
-    if (dropdown && !dropdown.lastElementChild) {
-      parent.removeChild(dropdown.parentElement);
+    if (dropdown && isElementEmpty(dropdown)) {
+      const wrapper = document.querySelector('.menu-wrapper');
+      wrapper.removeChild(dropdown.parentElement);
     }
   };
   return { createMenu, moveLinks };
