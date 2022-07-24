@@ -11,9 +11,7 @@ for (let i = 0; i < 35; i++) {
   links.push(navItem);
 }
 
-const menu = Menu(navbar, links, {
-  dropdownText: 'Yo',
-});
+const menu = Menu(navbar, links, {});
 menu.createMenu();
 menu.moveLinks();
 window.onresize = menu.moveLinks;

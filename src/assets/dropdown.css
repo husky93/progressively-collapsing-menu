@@ -1,3 +1,35 @@
+.dropdown {
+  position: relative;
+  cursor: pointer;
+  padding: 0 24px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.dropdown-title {
+  font-weight: 700;
+}
+
 .dropdown-collapse {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 12px;
+  left: 0;
+  width: 100%;
   list-style: none;
+  visibility: hidden;
+  overflow: hidden;
+  opacity: 0.2;
+  transform: scaleY(0);    
+  transform-origin: top;
+  transition: opacity 0.15s ease-out, transform 0.26s ease;
+}
+
+
+.dropdown.active .dropdown-collapse{
+  visibility: visible;
+  transform: scaleY(1);
+  opacity: 1;
 }

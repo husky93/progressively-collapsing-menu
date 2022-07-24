@@ -18,7 +18,7 @@ const Menu = (parent, [...links], options = {}) => {
     const freeSpace = rect.right - rectDropdown.right;
     const linkWidth = dropdownList.lastElementChild.clientWidth;
 
-    return freeSpace >= linkWidth + 24;
+    return freeSpace >= linkWidth;
   };
 
   const appendLinks = (menu) => {
@@ -37,6 +37,10 @@ const Menu = (parent, [...links], options = {}) => {
     collapsable.classList.add('dropdown-collapse');
 
     title.textContent = options.dropdownText || 'More ↓';
+
+    dropdown.addEventListener('click', () =>
+      dropdown.classList.toggle('active')
+    );
 
     dropdown.append(title, collapsable);
     wrapper.appendChild(dropdown);
@@ -101,8 +105,8 @@ const Menu = (parent, [...links], options = {}) => {
 
     const dropdown = document.querySelector('.dropdown-collapse');
     if (dropdown && !isElementEmpty(dropdown)) {
-      const links = [...dropdown.children];
-      links
+      const dropdownLinks = [...dropdown.children];
+      dropdownLinks
         .slice()
         .reverse()
         .forEach((link) => {
@@ -111,9 +115,7 @@ const Menu = (parent, [...links], options = {}) => {
             menuContainer.appendChild(link);
           }
         });
-    }
-
-    if (dropdown && isElementEmpty(dropdown)) {
+    } else if (dropdown && isElementEmpty(dropdown)) {
       const wrapper = document.querySelector('.menu-wrapper');
       wrapper.removeChild(dropdown.parentElement);
     }
