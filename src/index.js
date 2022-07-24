@@ -1,5 +1,4 @@
 import Menu from './modules/menu';
-import './assets/style.css';
 
 const navbar = document.querySelector('.menu');
 const links = [];

@@ -42,6 +42,14 @@ const Menu = (parent, [...links], options = {}) => {
     wrapper.appendChild(dropdown);
   };
 
+  const addDropdownStyles = () => {
+    require('../assets/dropdown.css');
+  };
+
+  const addMenuStyles = () => {
+    require('../assets/menu.css');
+  };
+
   const createMenu = () => {
     const menu = document.createElement('ul');
     const wrapper = document.createElement('nav');
@@ -61,6 +69,11 @@ const Menu = (parent, [...links], options = {}) => {
 
     appendLinks(menu);
     createDropdown(wrapper);
+
+    if (!options.noStyles) {
+      addDropdownStyles();
+      addMenuStyles();
+    }
   };
 
   const isElementEmpty = (element) => element.lastElementChild === null;
