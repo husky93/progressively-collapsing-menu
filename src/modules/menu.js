@@ -10,7 +10,7 @@ const Menu = (parent, [...links], options = {}) => {
   };
 
   const isFreeSpace = (link) => {
-    const navbar = document.querySelector('.navbar');
+    const navbar = document.querySelector('.menu--wrapper');
     const dropdown = document.querySelector('.dropdown');
     const rect = navbar.getBoundingClientRect();
     const rectDropdown = dropdown.getBoundingClientRect();
@@ -26,25 +26,30 @@ const Menu = (parent, [...links], options = {}) => {
     });
   };
 
-  const createDropdown = () => {
+  const createDropdown = (wrapper) => {
     const dropdown = document.createElement('div');
     const collapsable = document.createElement('div');
     const title = document.createElement('span');
     title.classList.add('.dropdown-title');
     dropdown.classList.add('dropdown');
     collapsable.classList.add('dropdown-collapse');
-    title.textContent = 'More ↓';
+    title.textContent = options.dropdownText || 'More ↓';
     dropdown.append(title, collapsable);
 
-    parent.appendChild(dropdown);
+    wrapper.appendChild(dropdown);
   };
 
   const createMenu = () => {
     const menu = document.createElement('ul');
+    const wrapper = document.createElement('nav');
+    wrapper.classList.add('menu--wrapper');
+    wrapper.style.display = 'flex';
+    wrapper.style.flexDirection = 'row';
     menu.classList.add('menu--progressive');
-    parent.appendChild(menu);
+    wrapper.appendChild(menu);
+    parent.appendChild(wrapper);
     appendLinks(menu);
-    createDropdown();
+    createDropdown(wrapper);
   };
 
   const moveLinks = () => {
@@ -68,19 +73,15 @@ const Menu = (parent, [...links], options = {}) => {
           }
         }
       });
-    const link = dropdown ? dropdown.lastElementChild : null;
 
-    if (link) {
-      if (isFreeSpace(link)) {
-        dropdown.removeChild(link);
-        menuContainer.appendChild(link);
-      }
+    const link = dropdown ? dropdown.lastElementChild : null;
+    if (link && isFreeSpace(link)) {
+      dropdown.removeChild(link);
+      menuContainer.appendChild(link);
     }
 
-    if (dropdown) {
-      if (!dropdown.lastElementChild) {
-        parent.removeChild(dropdown.parentElement);
-      }
+    if (dropdown && !dropdown.lastElementChild) {
+      parent.removeChild(dropdown.parentElement);
     }
   };
   return { createMenu, moveLinks };
