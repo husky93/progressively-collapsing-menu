@@ -1,8 +1,11 @@
 const Menu = (parent, [...links], options = {}) => {
   const isInViewport = () => {
+    const menuContainer = document.querySelector('.menu--progressive');
+    const rectMenu = menuContainer.getBoundingClientRect();
     const rectParent = parent.getBoundingClientRect();
     const rectLastElement = parent.lastElementChild.getBoundingClientRect();
     return (
+      rectMenu.left >= 0 &&
       rectLastElement.right <=
         (window.innerWidth || document.documentElement.clientWidth) &&
       rectLastElement.right <= rectParent.right
@@ -114,15 +117,17 @@ const Menu = (parent, [...links], options = {}) => {
     const dropdown = document.querySelector('.dropdown-collapse');
     if (dropdown && !isElementEmpty(dropdown)) {
       const dropdownLinks = [...dropdown.children];
-      dropdownLinks
-        .slice()
-        .reverse()
-        .forEach((link) => {
-          if (isFreeSpace()) {
-            dropdown.removeChild(link);
-            menuContainer.appendChild(link);
-          }
-        });
+      if (dropdownLinks.length > 0) {
+        dropdownLinks
+          .slice()
+          .reverse()
+          .forEach((link) => {
+            if (isFreeSpace()) {
+              dropdown.removeChild(link);
+              menuContainer.appendChild(link);
+            }
+          });
+      }
     } else if (dropdown && isElementEmpty(dropdown)) {
       const wrapper = document.querySelector('.menu-wrapper');
       wrapper.removeChild(dropdown.parentElement);
