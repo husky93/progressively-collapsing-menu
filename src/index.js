@@ -1,24 +1,28 @@
 const Menu = (parent, [...links], options = {}) => {
-  const isInViewport = (element) => {
-    const dropdown = document.querySelector('.dropdown');
-    const rect = element.getBoundingClientRect();
-    const rectDropdown = dropdown ? dropdown.getBoundingClientRect() : null;
-    return dropdown
-      ? rect.right <= rectDropdown.left
-      : rect.right <=
-          (window.innerWidth || document.documentElement.clientWidth);
+  const isInViewport = () => {
+    const rectParent = parent.getBoundingClientRect();
+    const rectLastElement = parent.lastElementChild.getBoundingClientRect();
+    return (
+      rectLastElement.right <=
+        (window.innerWidth || document.documentElement.clientWidth) &&
+      rectLastElement.right <= rectParent.right
+    );
   };
 
   const isFreeSpace = () => {
-    const navbar = document.querySelector('.menu-wrapper');
-    const dropdown = document.querySelector('.dropdown');
     const dropdownList = document.querySelector('.dropdown-collapse');
-    const rect = navbar.getBoundingClientRect();
-    const rectDropdown = dropdown.getBoundingClientRect();
-    const freeSpace = rect.right - rectDropdown.right;
+    const wrapper = document.querySelector('.menu-wrapper');
+
+    const rect = parent.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const rectLastElement = parent.lastElementChild.getBoundingClientRect();
+    const rectFirstElement = parent.firstElementChild.getBoundingClientRect();
+
+    const freeSpaceRight = rect.right - rectLastElement.right;
+    const freeSpaceLeft = wrapperRect.left - rectFirstElement.right;
     const linkWidth = dropdownList.lastElementChild.clientWidth;
 
-    return freeSpace >= linkWidth;
+    return freeSpaceRight >= linkWidth || freeSpaceLeft >= linkWidth;
   };
 
   const appendLinks = (menu) => {
@@ -66,6 +70,7 @@ const Menu = (parent, [...links], options = {}) => {
 
     wrapper.style.display = 'flex';
     wrapper.style.flexDirection = 'row';
+    wrapper.style.width = 'min-content';
     menu.style.display = 'flex';
     menu.style.flexDirection = 'row';
     menu.style.overflow = 'hidden';
@@ -74,8 +79,8 @@ const Menu = (parent, [...links], options = {}) => {
     wrapper.appendChild(menu);
     parent.appendChild(wrapper);
 
-    appendLinks(menu);
     createDropdown(wrapper);
+    appendLinks(menu);
 
     if (!options.noStyles) {
       addDropdownStyles();
@@ -83,7 +88,7 @@ const Menu = (parent, [...links], options = {}) => {
     }
   };
 
-  const isElementEmpty = (element) => element.lastElementChild === null;
+  const isElementEmpty = (element) => element.childNodes.length === 0;
 
   const moveLinks = () => {
     const menuContainer = document.querySelector('.menu--progressive');
@@ -94,13 +99,13 @@ const Menu = (parent, [...links], options = {}) => {
       .reverse()
       .forEach((link) => {
         let dropdown = document.querySelector('.dropdown-collapse');
-        if (!isInViewport(link) && !dropdown) {
+        if (!isInViewport() && !dropdown) {
           const wrapper = document.querySelector('.menu-wrapper');
           createDropdown(wrapper);
           dropdown = document.querySelector('.dropdown-collapse');
           menuContainer.removeChild(link);
           dropdown.appendChild(link);
-        } else if (!isInViewport(link) && dropdown) {
+        } else if (!isInViewport() && dropdown) {
           menuContainer.removeChild(link);
           dropdown.appendChild(link);
         }
