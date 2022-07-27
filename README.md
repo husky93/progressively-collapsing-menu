@@ -1,6 +1,7 @@
 # progressively-collapsing-menu
 
-Progressively collapsing menu component. Moves links that are overflowing menu component to a dropdown menu. Highly customisable as there is only basic styling applied.
+Progressively collapsing menu component. 
+Moves links that are overflowing menu component to a dropdown menu. Highly customisable as there is only basic styling applied.
 
 ![](https://github.com/husky93/progressively-collapsing-menu/blob/main/menu.gif)
 
@@ -26,7 +27,7 @@ const menu = Menu(parent, links, {
 - `links` - an array of DOM elements containing all your menu links.
 - `options` - an object with optional additional parameters. Those parameters are:
   - `dropdownText` - Changes the default text of the dropdown menu. Must be a string.
-  - `noStyles` - Removes most of the basic styling. :warning: **Use with caution**: This option may cause issues. It breaks the custom dropdown animation and may also break whole menu component.
+  - `noStyles` - Removes most of the basic styling. :warning: **Use with caution**: This option may cause issues. It breaks the custom dropdown animation and may also break whole menu component functionality.
 
 ##### It returns an object with two methods:
 - `createMenu` - Creates and renders menu with provided `links` inside the specified `parent` container.
