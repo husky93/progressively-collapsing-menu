@@ -56,12 +56,8 @@ const Menu = (parent, [...links], options = {}) => {
     wrapper.appendChild(dropdown);
   };
 
-  const addDropdownStyles = () => {
-    require('./assets/dropdown.css');
-  };
-
-  const addMenuStyles = () => {
-    require('./assets/menu.css');
+  const addStyles = () => {
+    require('./assets/style.css');
   };
 
   const createMenu = () => {
@@ -86,8 +82,7 @@ const Menu = (parent, [...links], options = {}) => {
     appendLinks(menu);
 
     if (!options.noStyles) {
-      addDropdownStyles();
-      addMenuStyles();
+      addStyles();
     }
   };
 
