@@ -34,7 +34,7 @@ const menu = Menu(parent, links, {
 
 #### 3. Create menu
 
-Create menu and call `moveLinks` method whenever you want to check if links are overflowing and move them inside the dropdown, or move them from dropdown to menu if there is free space available inside the specified `parent` element.
+Create menu and call `moveLinks` method whenever you want to check if links are overflowing and move them inside the dropdown, or move them from dropdown to menu if there is free space available inside the provided `parent` element.
 
 ```javascript
 menu.createMenu();
