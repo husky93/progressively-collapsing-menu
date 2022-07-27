@@ -8,10 +8,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'commonjs2',
   },
-  devtool: 'inline-source-map',
-  devServer: {
-    static: './dist',
-  },
   module: {
     rules: [
       {
