@@ -4,11 +4,16 @@ const Menu = (parent, [...links], options = {}) => {
     const rectMenu = menuContainer.getBoundingClientRect();
     const rectParent = parent.getBoundingClientRect();
     const rectLastElement = parent.lastElementChild.getBoundingClientRect();
+    const firstElement = parent.firstElementChild;
+    let rectFirstElement;
+    if (firstElement)
+      rectFirstElement = parent.firstElementChild.getBoundingClientRect();
     return (
-      rectMenu.left >= 0 &&
+      rectMenu.left > 0 &&
       rectLastElement.right <=
         (window.innerWidth || document.documentElement.clientWidth) &&
-      rectLastElement.right <= rectParent.right
+      rectLastElement.right <= rectParent.right &&
+      (firstElement ? rectFirstElement.left > 0 : true)
     );
   };
 
@@ -16,16 +21,35 @@ const Menu = (parent, [...links], options = {}) => {
     const dropdownList = document.querySelector('.dropdown-collapse');
     const wrapper = document.querySelector('.menu-wrapper');
 
+    const siblingLeft = wrapper.previousElementSibling;
+    const firstElement = parent.firstElementChild;
+
     const rect = parent.getBoundingClientRect();
     const wrapperRect = wrapper.getBoundingClientRect();
     const rectLastElement = parent.lastElementChild.getBoundingClientRect();
-    const rectFirstElement = parent.firstElementChild.getBoundingClientRect();
 
+    let rectSiblingLeft;
+    let rectFirstElement;
+    if (siblingLeft) {
+      rectSiblingLeft = siblingLeft.getBoundingClientRect();
+    }
+    if (firstElement) {
+      rectFirstElement = firstElement.getBoundingClientRect();
+    }
     const freeSpaceRight = rect.right - rectLastElement.right;
-    const freeSpaceLeft = wrapperRect.left - rectFirstElement.right;
+    const freeSpaceBetween = siblingLeft
+      ? wrapperRect.left - rectSiblingLeft.right
+      : wrapperRect.left;
+    const freeSpaceLeft = firstElement
+      ? rectFirstElement.left
+      : wrapperRect.left;
     const linkWidth = dropdownList.lastElementChild.clientWidth;
 
-    return freeSpaceRight >= linkWidth || freeSpaceLeft >= linkWidth;
+    return (
+      freeSpaceRight >= linkWidth ||
+      freeSpaceBetween >= linkWidth ||
+      freeSpaceLeft >= linkWidth
+    );
   };
 
   const appendLinks = (menu) => {

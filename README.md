@@ -1,7 +1,7 @@
 # progressively-collapsing-menu
 
-Progressively collapsing menu component. 
-Moves links that are overflowing menu component to a dropdown menu. Highly customisable as there is only basic styling applied.
+Progressively collapsing menu component. Moves links that are overflowing menu component to a dropdown menu. <br>
+Highly customizable as there is only basic styling applied. Very adaptable, works in many layouts - you can align it however you like.
 
 ![](https://github.com/husky93/progressively-collapsing-menu/blob/main/menu.gif)
 
