@@ -27,7 +27,7 @@ const menu = Menu(parent, links, {
 - `links` - an array of DOM elements containing all your menu links.
 - `options` - an object with optional additional parameters. Those parameters are:
   - `dropdownText` - Changes the default text of the dropdown menu. Must be a string.
-  - `noStyles` - Removes most of the basic styling. :warning: **Use with caution**: This option may cause issues. It breaks the custom dropdown animation and may also break whole menu component functionality.
+  - `noStyles` - Removes most of the basic styling. :warning: **Use with caution**: This option may cause issues. It breaks the custom dropdown animation and may cause problems with component functionality.
 
 ##### It returns an object with two methods:
 - `createMenu` - Creates and renders menu with provided `links` inside the specified `parent` container.
